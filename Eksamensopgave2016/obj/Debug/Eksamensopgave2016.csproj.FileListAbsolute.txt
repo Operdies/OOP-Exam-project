@@ -1,0 +1,7 @@
+C:\asdf\Eksamensopgave2016\Eksamensopgave2016\bin\Debug\Eksamensopgave2016.exe.config
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\bin\Debug\Eksamensopgave2016.exe.config
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\bin\Debug\Eksamensopgave2016.exe
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\bin\Debug\Eksamensopgave2016.pdb
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\obj\Debug\Eksamensopgave2016.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\obj\Debug\Eksamensopgave2016.exe
+C:\Users\Alex\Desktop\Exam\Eksamensopgave2016\Eksamensopgave2016\obj\Debug\Eksamensopgave2016.pdb
