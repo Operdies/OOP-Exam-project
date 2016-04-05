@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\LineSystem.cs" />
+    <Compile Include="Core\Product.cs" />
+    <Compile Include="Core\SeasonalProduct.cs" />
+    <Compile Include="Core\Transaction.cs" />
     <Compile Include="IStregsystem.cs" />
     <Compile Include="IStregsystemUI.cs" />
     <Compile Include="Program.cs" />
@@ -50,9 +54,17 @@
     <Compile Include="Stregsystem.cs" />
     <Compile Include="StregsystemCLI.cs" />
     <Compile Include="StregsystemController.cs" />
+    <Compile Include="Core\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="InputValidation\" />
+    <Folder Include="Interface\" />
+    <Folder Include="Sammensætning\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
