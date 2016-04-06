@@ -4,7 +4,7 @@
 using System;
 using System.Linq;
 
-namespace Eksamensopgave2016.InputValidation
+namespace Eksamensopgave2016.Core
 {
     static class InputValidation
     {
@@ -27,29 +27,17 @@ namespace Eksamensopgave2016.InputValidation
         {
             CheckNullOrWhiteSpace(email);
             ValidateSpecialCharacters(email);
-            
         }
 
         private static void ValidateSpecialCharacters(string email)
         {
             if (email.Count(ch => ch == '@') != 1)
                 throw new ArgumentException("Email address must contain exactly one \"@\" symbol");
-            string localPart = GetLocalPart(email);
-            string domain = GetDomain(email, localPart.Length);
+            string localPart = email.Split('@')[0];
+            string domain = email.Split('@')[1];
             ValidateLocalPart(localPart);
             ValidateDomain(domain);
         }
-
-        private static string GetDomain(string email, int localLength)
-        {
-            return email.Substring(localLength + 1);
-        }
-
-        private static string GetLocalPart(string email)
-        {
-            return email.TakeWhile(ch => ch != '@').Aggregate("", (current, ch) => current + ch);
-        }
-
 
         private static void ValidateLocalPart(string local)
         {
@@ -72,39 +60,31 @@ namespace Eksamensopgave2016.InputValidation
         private static void ValidateDomain(string domain)
         {
             TestFirstAndLastSymbol(domain);
-            if (domain.Count(ch => ch == '.') != 1)
-                throw new ArgumentException("Domain must contain exactly one full stop symbol (\".\")");
+            if (domain.Contains(".") == false)
+                throw new ArgumentException("Domain must contain at least one full stop symbol (\".\")");
             foreach (char ch in domain)
             {
                 if (char.IsLetterOrDigit(ch)) continue;
                 if (IsLegalDomainCharacter(ch)) continue;
+
                 throw new ArgumentException($"{ch} is an illegal character");
             }
-            
         }
 
         private static bool IsLegalDomainCharacter(char ch)
         {
-            bool result;
-            switch (ch)
-            {
-                case '.':
-                    result = true;
-                    break;
-                case '-':
-                    result = true;
-                    break;
-                default:
-                    result = false;
-                    break;
-            }
-            return result;
+            return (ch == '.' || ch == '-');
         }
 
         private static void TestFirstAndLastSymbol(string domain)
         {
-            if (domain.StartsWith(".") || domain.StartsWith("-") || domain.EndsWith(".") || domain.EndsWith("-"))
-                throw new ArgumentException("Domain must not start or end with a full stop or a dash (\".\" or \"-\")");
+            if (domain.StartsWith(".") || 
+                domain.StartsWith("-") || 
+                domain.EndsWith(".") || 
+                domain.EndsWith("-"))
+                throw new ArgumentException(
+                    "Domain may not start or end with a full stop or a dash (\".\" or \"-\")"
+                    );
         }
 
         private static bool ContainsDigits(string str)
