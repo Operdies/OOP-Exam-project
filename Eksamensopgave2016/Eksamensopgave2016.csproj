@@ -47,7 +47,7 @@
     <Compile Include="Core\Product.cs" />
     <Compile Include="Core\SeasonalProduct.cs" />
     <Compile Include="Core\Transaction.cs" />
-    <Compile Include="InputValidation\InputValidation.cs" />
+    <Compile Include="Core\InputValidation.cs" />
     <Compile Include="Interface\IStregsystem.cs" />
     <Compile Include="Interface\IStregsystemUI.cs" />
     <Compile Include="Program.cs" />

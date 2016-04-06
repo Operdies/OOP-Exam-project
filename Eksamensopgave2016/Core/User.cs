@@ -17,7 +17,7 @@ namespace Eksamensopgave2016.Core
         {
             get { return _firstName; }
             private set {
-                InputValidation.InputValidation.ValidateName(value);
+                InputValidation.ValidateName(value);
                 _firstName = value;
             }
         }
@@ -28,12 +28,23 @@ namespace Eksamensopgave2016.Core
             get { return _lastName; }
             private set
             {
-                if (value == null)
-                    throw new InvalidNameException();
+                InputValidation.ValidateName(value);
                 _lastName = value;
             }
         }
-        public string Username { get; private set; }
+
+        private string _username;
+
+        public string Username
+        {
+            get { return _username; }
+            private set
+            {
+                InputValidation.ValidateUsername(value);
+                _username = value;
+            }
+        }
+
         public string Email { get; private set; }
         public decimal BalanceDecimal { get; private set; }
 
@@ -50,7 +61,8 @@ namespace Eksamensopgave2016.Core
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            User other = obj as User;
+            return other != null && this.UserID == other.UserID;
         }
 
         public override int GetHashCode()
@@ -60,48 +72,16 @@ namespace Eksamensopgave2016.Core
 
         public User(string firstName, string lastName, string email, string username)
         {
-            if (validateEmail(email) == false)
-                throw new InvalidEmailException();
-            if (validateUsername(username) == false)
-                throw new InvalidUsernameException();
-            
             UserID = NextID++;
-            Email = email;
-            
+            Email = email.ToLower();
+            FirstName = firstName;
+            LastName = lastName;
         }
 
-        private bool validateEmail(string email)
+        private string FormatName(string name)
         {
-            StringBuilder sb = new StringBuilder();
-            string localPart = "";
-            if (email.Contains('@'))
-                foreach (char ch in email)
-                {
-                    if (ch == '@')
-                        break;
-                    sb.Append(ch);
-                }
-            localPart = sb.ToString();
-            //string localPart = email.TakeWhile(ch => ch.Equals('@') == false).ToString();
-            return default(bool);
+            string newName = char.ToUpper(name[0]) + name.Substring(1);
+            return newName;
         }
-
-        private bool validateUsername(string username)
-        {
-            return default(bool);
-        }
-    }
-    internal class InvalidEmailException : Exception
-    {
-
-    }
-
-    internal class InvalidUsernameException : Exception
-    {
-    }
-
-    internal class InvalidNameException : Exception
-    {
-
     }
 }
