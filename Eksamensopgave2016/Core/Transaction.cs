@@ -8,15 +8,24 @@ namespace Eksamensopgave2016.Core
 {
     abstract class Transaction
     {
-    }
+        private static int TransactionID = 1;
+        public User User { get; }
+        public DateTime Date { get; }
+        public decimal Amount { get; }
+        public abstract void Execute();
 
-    class InserCashTransaction : Transaction
-    {
-        
-    }
 
-    class BuyTransaction : Transaction
-    {
-        
+        protected Transaction(User user, decimal amount)
+        {
+            Amount = amount;
+            User = user;
+            Date = DateTime.Now;
+        }
+
+        public override string ToString()
+        {
+            return
+                $"Transaction ID : {TransactionID}\nUser : {User}\nAmount : {Amount}\nTime of transaction:{Date}";
+        }
     }
 }

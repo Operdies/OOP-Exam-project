@@ -1,4 +1,4 @@
-﻿//20154304_Alexander_Nørøskov_Larsen
+﻿//20154304_Alexander_Nørskov_Larsen
 
 
 using System;
@@ -8,12 +8,15 @@ namespace Eksamensopgave2016.Core
 {
     static class InputValidation
     {
+        public static void ValidateProductName(string product)
+        {
+            CheckNullOrWhiteSpace(product);
+        }
         public static void ValidateName(string name)
         {
             CheckNullOrWhiteSpace(name);
             if (ContainsDigits(name))
                 throw new ArgumentException("Name must not contain digits");
-            
         }
 
         public static void ValidateUsername(string username)
@@ -96,7 +99,7 @@ namespace Eksamensopgave2016.Core
         {
             if (str == null) throw new ArgumentNullException(nameof(str));
             if (string.IsNullOrWhiteSpace(str))
-                throw new ArgumentException("String {0} must not be null or empty", nameof(str));
+                throw new ArgumentException("String {0} may not be null or empty", nameof(str));
         }
     }
 }

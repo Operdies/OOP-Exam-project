@@ -1,4 +1,4 @@
-﻿//20154304_Alexander_Nørøskov_Larsen
+﻿//20154304_Alexander_Nørskov_Larsen
 
 
 using System;
@@ -7,29 +7,32 @@ using System.Text;
 
 namespace Eksamensopgave2016.Core
 {
+    delegate void UserBalanceNotifications(User user, decimal Balance);
     class User : IComparable<User>
     {
         private static int NextID = 1;
-        public int UserID { get; private set; }
+        public int UserID { get; }
         private string _firstName;
 
         public string FirstName
         {
             get { return _firstName; }
-            private set {
+            private set
+            {
                 InputValidation.ValidateName(value);
-                _firstName = value;
+                _firstName = FormatName(value);
             }
         }
 
         private string _lastName;
 
-        public string LastName {
+        public string LastName
+        {
             get { return _lastName; }
             private set
             {
                 InputValidation.ValidateName(value);
-                _lastName = value;
+                _lastName = FormatName(value);
             }
         }
 
@@ -45,7 +48,18 @@ namespace Eksamensopgave2016.Core
             }
         }
 
-        public string Email { get; private set; }
+        private string _email;
+
+        public string Email
+        {
+            get { return _email; }
+            private set
+            {
+                InputValidation.ValidateEmail(value);
+                _email = value.ToLower();
+            }
+        }
+
         public decimal BalanceDecimal { get; private set; }
 
         public int CompareTo(User other)
@@ -55,8 +69,7 @@ namespace Eksamensopgave2016.Core
 
         public override string ToString()
         {
-            string result = $"{FirstName} {LastName} ({Email})";
-            return result;
+            return $"{FirstName} {LastName} ({Email})";
         }
 
         public override bool Equals(object obj)
@@ -73,15 +86,26 @@ namespace Eksamensopgave2016.Core
         public User(string firstName, string lastName, string email, string username)
         {
             UserID = NextID++;
-            Email = email.ToLower();
+            Email = email.ToLower().Trim();
             FirstName = firstName;
             LastName = lastName;
         }
 
-        private string FormatName(string name)
+        private string FormatName(string oldName)
         {
-            string newName = char.ToUpper(name[0]) + name.Substring(1);
-            return newName;
+            char[] name = oldName.ToCharArray();
+            if (name.Length >= 1)
+                name[0] = char.ToUpper(name[0]);
+            
+
+            for (int index = 1; index < oldName.Length; index++)
+            {
+                if (name[index - 1] == ' ')
+                    name[index] = char.ToUpper(name[index]);
+                else
+                    name[index] = char.ToLower(name[index]);
+            }
+            return new string(name);
         }
     }
 }

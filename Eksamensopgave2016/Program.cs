@@ -1,4 +1,4 @@
-﻿//20154304_Alexander_Nørøskov_Larsen
+﻿//20154304_Alexander_Nørskov_Larsen
 
 
 using System;
@@ -19,17 +19,19 @@ namespace Eksamensopgave2016
 
             ui.Start();
             */
-            string email = "lolol@xD.com";
-            string local = String.Empty;
-            local = email.TakeWhile(ch => ch != '@').Aggregate(local, (current, ch) => current + ch);
-            Console.WriteLine(local);
-            string domain = email.Substring(local.Length + 1);
-            Console.WriteLine(domain);
-            if (domain.Count(ch => ch == '.') != 1)
-                Console.WriteLine("Domain has too many dots, doofus");
+            //string email = "lolol@xD.com";
+            //string local = String.Empty;
+            //local = email.TakeWhile(ch => ch != '@').Aggregate(local, (current, ch) => current + ch);
+            //Console.WriteLine(local);
+            //string domain = email.Substring(local.Length + 1);
+            //Console.WriteLine(domain);
+            //if (domain.Count(ch => ch == '.') != 1)
+            //    Console.WriteLine("Domain has too many dots, doofus");
 
+            string newString = "Hehe\nDette\nEr\nEn\nTest";
+            Console.WriteLine(newString);
 
-                Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }
