@@ -19,7 +19,17 @@ namespace Eksamensopgave2016
 
             ui.Start();
             */
-            Console.ReadKey();
+            string email = "lolol@xD.com";
+            string local = String.Empty;
+            local = email.TakeWhile(ch => ch != '@').Aggregate(local, (current, ch) => current + ch);
+            Console.WriteLine(local);
+            string domain = email.Substring(local.Length + 1);
+            Console.WriteLine(domain);
+            if (domain.Count(ch => ch == '.') != 1)
+                Console.WriteLine("Domain has too many dots, doofus");
+
+
+                Console.ReadKey();
         }
     }
 }

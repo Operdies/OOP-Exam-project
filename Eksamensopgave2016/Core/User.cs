@@ -2,12 +2,10 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Eksamensopgave2016
+namespace Eksamensopgave2016.Core
 {
     class User : IComparable<User>
     {
@@ -19,8 +17,7 @@ namespace Eksamensopgave2016
         {
             get { return _firstName; }
             private set {
-                if (value == null)
-                    throw new InvalidNameException();
+                InputValidation.InputValidation.ValidateName(value);
                 _firstName = value;
             }
         }
