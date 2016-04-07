@@ -17,6 +17,7 @@ namespace Eksamensopgave2016.Core
             bool active, bool canBeBoughtOnCredit, DateTime seasonStartDate, DateTime seasonEndDate) 
             : base(productName, productID, price, active, canBeBoughtOnCredit)
         {
+            
             SeasonStartDate = seasonStartDate;
             SeasonEndDate = seasonEndDate;
         }
