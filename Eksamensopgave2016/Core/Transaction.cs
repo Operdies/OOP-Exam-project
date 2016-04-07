@@ -8,7 +8,8 @@ namespace Eksamensopgave2016.Core
 {
     abstract class Transaction
     {
-        private static int TransactionID = 1;
+        private static int NextID = 1;
+        public int TransactionID { get; }
         public User User { get; }
         public DateTime Date { get; }
         public decimal Amount { get; }
@@ -19,7 +20,9 @@ namespace Eksamensopgave2016.Core
         {
             Amount = amount;
             User = user;
+            TransactionID = NextID++;
             Date = DateTime.Now;
+            
         }
 
         public override string ToString()

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Core\BuyTransaction.cs" />
     <Compile Include="Core\InsertCashTransaction.cs" />
+    <Compile Include="Core\InsufficientCreditsException.cs" />
     <Compile Include="Core\LineSystem.cs" />
     <Compile Include="Core\Product.cs" />
     <Compile Include="Core\SeasonalProduct.cs" />
