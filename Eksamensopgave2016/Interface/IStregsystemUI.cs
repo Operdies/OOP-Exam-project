@@ -1,4 +1,6 @@
-﻿namespace Eksamensopgave2016
+﻿//20154304_Alexander_Nørskov_Larsen
+
+namespace Eksamensopgave2016.Interface
 {
     public interface IStregsystemUI
     {

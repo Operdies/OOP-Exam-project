@@ -1,4 +1,6 @@
-﻿using System;
+﻿//20154304_Alexander_Nørskov_Larsen
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Eksamensopgave2016.Core
 {
-    class BuyTransaction : Transaction
+    public class BuyTransaction : Transaction
     {
         public Product Item { get; }
         public override string ToString()

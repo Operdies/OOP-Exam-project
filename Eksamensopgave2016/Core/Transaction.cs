@@ -1,4 +1,6 @@
-﻿using System;
+﻿//20154304_Alexander_Nørskov_Larsen
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Eksamensopgave2016.Core
 {
-    abstract class Transaction
+    public abstract class Transaction : IComparable<Transaction>
     {
         private static int NextID = 1;
         public int TransactionID { get; }
@@ -23,6 +25,12 @@ namespace Eksamensopgave2016.Core
             TransactionID = NextID++;
             Date = DateTime.Now;
             
+        }
+
+        public int CompareTo(Transaction other)
+        {
+            //Sorts by descending transaction ID
+            return other.TransactionID.CompareTo(this.TransactionID);
         }
 
         public override string ToString()

@@ -8,7 +8,8 @@ using System.Text;
 namespace Eksamensopgave2016.Core
 {
     delegate void UserBalanceNotifications(User user, decimal Balance);
-    class User : IComparable<User>
+
+    public class User : IComparable<User>
     {
         private static int NextID = 1;
         public int UserID { get; }
@@ -80,7 +81,8 @@ namespace Eksamensopgave2016.Core
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            //mock implementation
+            return UserID.GetHashCode() ^ Username.GetHashCode();
         }
 
         public User(string firstName, string lastName, string email, string username)

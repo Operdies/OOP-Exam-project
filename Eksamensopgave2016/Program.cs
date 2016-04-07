@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Eksamensopgave2016.Core;
+
 
 namespace Eksamensopgave2016
 {
@@ -19,17 +21,6 @@ namespace Eksamensopgave2016
 
             ui.Start();
             */
-            //string email = "lolol@xD.com";
-            //string local = String.Empty;
-            //local = email.TakeWhile(ch => ch != '@').Aggregate(local, (current, ch) => current + ch);
-            //Console.WriteLine(local);
-            //string domain = email.Substring(local.Length + 1);
-            //Console.WriteLine(domain);
-            //if (domain.Count(ch => ch == '.') != 1)
-            //    Console.WriteLine("Domain has too many dots, doofus");
-
-            string newString = "Hehe\nDette\nEr\nEn\nTest";
-            Console.WriteLine(newString);
 
             Console.ReadKey();
         }
