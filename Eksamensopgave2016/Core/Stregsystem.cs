@@ -46,8 +46,6 @@ namespace Eksamensopgave2016.Core
                 filterList.Add(bigList[index]);
                 limit++;
             }
-            if (filterList.Count == 0)
-                throw new ArgumentNullException($"No transaction history for user {user.Username}");
             return filterList;
         }
 
@@ -61,52 +59,5 @@ namespace Eksamensopgave2016.Core
             //return UserList.Find(user => user.Username == username);
             throw new NotImplementedException();
         }
-
-        //public event UserBalanceNotification UserBalanceWarning;
-
-        //public void BuyProduct(User user, Product item)
-        //{
-        //    //Transaction purchase = new BuyTransaction(user, item);
-        //    //purchase.Execute();
-        //    //TransactionList.Add(purchase);
-        //}
-
-        //public void AddCreditsToAccount(User user, decimal amount)
-        //{
-        //Transaction insertion = new InsertCashTransaction(user, amount);
-        //insertion.Execute();
-        //TransactionList.Add(insertion);
-        //}
-
-        //public void ExecuteTransaction(Transaction transaction)
-        //{
-        //    transaction.Execute();
-        //}
-
-        //public Product GetProductById(int ID)
-        //{
-        //    //return ProductList.Find(product => product.ProductID == ID);
-        //    throw new NotImplementedException();
-        //}
-
-        //public List<User> GetUsers(Func<User, bool> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public User GetUserByUsername(string username)
-        //{
-        //    //return UserList.Find(user => user.Username == username);
-        //    throw new NotImplementedException();
-        //}
-
-        //public event UserBalanceNotification UserBalanceWarning;
-
-        //public List<Transaction> GetTransaction(User user, int count)
-        //{
-        //    //return TransactionList.Where(transaction => transaction.User.Equals(user)).ToList();
-        //    throw new NotImplementedException();
-        //}
-
     }
 }
