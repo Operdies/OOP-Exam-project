@@ -14,7 +14,7 @@ namespace Eksamensopgave2016.Core
         {
             get
             {
-                //return ProductList.Where(product => product.Active).ToList();
+                //return ProductList.Where(item => item.Active).ToList();
                 throw new NotImplementedException();
             }
         }
@@ -23,14 +23,20 @@ namespace Eksamensopgave2016.Core
             return new InsertCashTransaction(user, amount);
         }
 
-        public BuyTransaction BuyProduct(User user, Product product)
+        public BuyTransaction BuyProduct(User user, Product item)
         {
-            return new BuyTransaction(user, product);
+            BuyTransaction purchase = new BuyTransaction(user, item);
+            ExecuteTransaction(purchase);
+            return purchase;
         }
 
+        public void ExecuteTransaction(Transaction transaction)
+        {
+            transaction.Execute();
+        }
         public Product GetProductByID(int productID)
         {
-            //return ProductList.Find(product => product.ProductID == ID);
+            //return ProductList.Find(item => item.ProductID == ID);
             throw new NotImplementedException();
         }
 

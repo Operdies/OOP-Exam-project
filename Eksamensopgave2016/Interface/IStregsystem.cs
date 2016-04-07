@@ -11,7 +11,7 @@ namespace Eksamensopgave2016.Interface
         
         IEnumerable<Product> ActiveProducts { get; }
         InsertCashTransaction AddCreditsToAccount(User user, int amount);
-        BuyTransaction BuyProduct(User user, Product product);
+        BuyTransaction BuyProduct(User user, Product item);
         Product GetProductByID(int productID);
         IEnumerable<Transaction> GetTransactions(User user, int count);
         User GetUser(Func<User, bool> predicate);
