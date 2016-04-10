@@ -11,5 +11,10 @@ namespace Eksamensopgave2016.Controller
         {
             throw new NotImplementedException();
         }
+
+        public void ParseCommand(string command)
+        {
+            
+        }
     }
 }

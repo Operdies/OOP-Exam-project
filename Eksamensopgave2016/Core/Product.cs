@@ -30,7 +30,7 @@ namespace Eksamensopgave2016.Core
             return $"{ProductID} {ProductName} {PriceDecimal/100:C}";
         }
 
-        public Product(string productName, int productID, decimal price, bool active, bool canBeBoughtOnCredit)
+        public Product(string productName, int productID, decimal price, bool active, bool canBeBoughtOnCredit = false)
         {
             ProductName = productName;
             ProductID = productID;
