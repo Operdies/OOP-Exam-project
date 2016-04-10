@@ -1,13 +1,13 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
-
-
+using System.Collections.Generic;
 
 namespace Eksamensopgave2016.Core
 {
     public class Product
     {
+        public static Dictionary<int, Product> ProductDictionary;
         public int ProductID { get; }
 
         private string _productName;
@@ -35,6 +35,8 @@ namespace Eksamensopgave2016.Core
             PriceDecimal = price;
             Active = active;
             CanBeBoughtOnCredit = canBeBoughtOnCredit;
+
+            ProductDictionary.Add(productID, this);
         }
     }
 

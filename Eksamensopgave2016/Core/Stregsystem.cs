@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Eksamensopgave2016.Interface;
 
 
@@ -11,14 +14,13 @@ namespace Eksamensopgave2016.Core
 {
     class Stregsystem : IStregsystem
     {
-        public List<Product> ProductList { get; set; } 
-        public List<User> UserList { get; set; } 
         public IEnumerable<Product> ActiveProducts
         {
             get
             {
-                //return ProductList.Where(item => item.Active).ToList();
-                throw new NotImplementedException();
+                return Product.ProductDictionary.Values.Where(product => product.Active).AsEnumerable();
+                //return
+                //    (from product in Product.ProductDictionary where product.Value.Active select product.Value).AsEnumerable();
             }
         }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
@@ -28,47 +30,50 @@ namespace Eksamensopgave2016.Core
 
         public BuyTransaction BuyProduct(User user, Product item)
         {
-            BuyTransaction purchase = new BuyTransaction(user, item);
-            ExecuteTransaction(purchase);
+            return new BuyTransaction(user, item);
+            //BuyTransaction purchase = new BuyTransaction(user, item);
+            //ExecuteTransaction(purchase);
             
-            return purchase;
+            //return purchase;
         }
 
         public void ExecuteTransaction(Transaction transaction)
         {
             transaction.Execute();
-            //TransactionList.Add(transaction);
         }
         public Product GetProductByID(int productID)
         {
-            //return ProductList.Find(item => item.ProductID == ID);
-            throw new NotImplementedException();
+            return Product.ProductDictionary.Values.First(item => item.ProductID == productID);
         }
 
         public IEnumerable<Transaction> GetTransactions(User user, int count)
         {
-            List<Transaction> bigList = new List<Transaction>();
-            List<Transaction> filterList = new List<Transaction>();
-            int limit = 0;
+            List<Transaction> UserTransactions =
+                Transaction.TransactionDictionary.Values
+                .Where(transaction => transaction.User.Equals(user)).ToList();
 
-            for (int index = bigList.Count - 1; index >= 0 && count > limit; index--)
-            {
-                if (!bigList[index].User.Equals(user)) continue;
-                filterList.Add(bigList[index]);
-                limit++;
-            }
-            return filterList;
+            UserTransactions.Sort();
+            return UserTransactions.GetRange(0, count).AsEnumerable();
+
+            //List<Transaction> RecentTransactions = new List<Transaction>();
+
+            //for (int index = 0; index < count; index++)
+            //{
+            //    RecentTransactions.Add(UserTransactions[index]);
+            //}
+            //return RecentTransactions.AsEnumerable();
         }
 
         public User GetUser(Func<User, bool> predicate)
         {
+            //GetUser(x => x.UserID == 5);
             throw new NotImplementedException();
         }
 
         public User GetUserByUsername(string username)
         {
-            //return UserList.Find(user => user.Username == username);
-            throw new NotImplementedException();
+            username = username.ToLower();
+            return User.UserDictionary.Values.First(user => user.Username.ToLower() == username);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Eksamensopgave2016.Core
         {
             CanPurchase();
             User.BalanceDecimal -= Amount;
+            base.Execute();
         }
 
         private void CanPurchase()

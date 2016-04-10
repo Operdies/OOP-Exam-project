@@ -3,27 +3,32 @@
 
 
 using System;
+using System.Collections.Generic;
 
 
 namespace Eksamensopgave2016.Core
 {
     public abstract class Transaction : IComparable<Transaction>
     {
+        public static Dictionary<int, Transaction> TransactionDictionary { get; private set; } 
         private static int NextID = 1;
-        public int TransactionID { get; }
+        public int TransactionID { get; private set; }
         public User User { get; }
         public DateTime Date { get; }
         public decimal Amount { get; }
-        public abstract void Execute();
+
+        public virtual void Execute()
+        {
+            TransactionID = NextID++;
+            TransactionDictionary.Add(TransactionID, this);
+        }
 
 
         protected Transaction(User user, decimal amount)
         {
             Amount = amount;
             User = user;
-            TransactionID = NextID++;
             Date = DateTime.Now;
-            
         }
 
         public int CompareTo(Transaction other)
@@ -34,8 +39,12 @@ namespace Eksamensopgave2016.Core
 
         public override string ToString()
         {
-            return
-                $"Transaction ID : {TransactionID}\nUser : {User}\nAmount : {Amount}\nTime of transaction:{Date}";
+            return (
+                $"Transaction ID : {TransactionID}\n" +
+                "User : {User}\n" +
+                "Amount : {Amount}\n"+
+                "Time of transaction:{Date}"
+                );
         }
     }
 }

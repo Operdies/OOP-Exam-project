@@ -11,12 +11,11 @@ namespace Eksamensopgave2016.Core
         public override void Execute()
         {
             User.BalanceDecimal += Amount;
-            throw new NotImplementedException();
+            base.Execute();
         }
 
         public override string ToString()
         {
-            //user.balance += amount
             return "Cash is being inserted into user account:\n\n" + base.ToString();
         }
 

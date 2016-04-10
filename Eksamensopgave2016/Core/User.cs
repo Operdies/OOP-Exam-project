@@ -3,13 +3,15 @@
 
 
 using System;
+using System.Collections.Generic;
 
 namespace Eksamensopgave2016.Core
 {
-    delegate void UserBalanceNotifications(User user, decimal Balance);
+    public delegate void UserBalanceNotifications(User user, decimal Balance);
 
     public class User : IComparable<User>
     {
+        public static Dictionary<int, User> UserDictionary { get; private set; } 
         private static int NextID = 1;
         public int UserID { get; }
         private string _firstName;
@@ -90,6 +92,8 @@ namespace Eksamensopgave2016.Core
             Email = email.ToLower().Trim();
             FirstName = firstName;
             LastName = lastName;
+            Username = username;
+            UserDictionary.Add(UserID, this);
         }
 
         private string FormatName(string oldName)
