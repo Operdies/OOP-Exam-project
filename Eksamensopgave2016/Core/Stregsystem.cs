@@ -1,16 +1,18 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
+
+
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
 using Eksamensopgave2016.Interface;
+
 
 namespace Eksamensopgave2016.Core
 {
     class Stregsystem : IStregsystem
     {
         public List<Product> ProductList { get; set; } 
+        public List<User> UserList { get; set; } 
         public IEnumerable<Product> ActiveProducts
         {
             get
@@ -28,6 +30,7 @@ namespace Eksamensopgave2016.Core
         {
             BuyTransaction purchase = new BuyTransaction(user, item);
             ExecuteTransaction(purchase);
+            
             return purchase;
         }
 

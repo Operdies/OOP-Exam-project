@@ -1,9 +1,8 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
+
 using System;
-using System.Linq;
-using System.Text;
 
 namespace Eksamensopgave2016.Core
 {
@@ -61,7 +60,7 @@ namespace Eksamensopgave2016.Core
             }
         }
 
-        public decimal BalanceDecimal { get; private set; }
+        public decimal BalanceDecimal { get;  set; }
 
         public int CompareTo(User other)
         {

@@ -1,11 +1,12 @@
 //20154304_Alexander_Nørskov_Larsen
 
+
+
 using System;
-using System.Collections.Generic;
 using Eksamensopgave2016.Core;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
+
 
 namespace Eksamensopgave2016.Interface
 {
@@ -13,11 +14,10 @@ namespace Eksamensopgave2016.Interface
     class StregsystemCLI : IStregsystemUI
     {
         private bool _running = true;
-        public Stregsystem stregsystem { get; private set; }
+        private readonly Stregsystem stregsystem;
         public StregsystemCLI(Stregsystem _stregsystem)
         {
             stregsystem = _stregsystem;
-            
         }
 
         public void DisplayUserNotFound(string username)
@@ -91,6 +91,7 @@ namespace Eksamensopgave2016.Interface
             Console.WriteLine("Quickbuy: Type in your username followed by a space and then the product ID");
             string command = Console.ReadLine();
             string[] parameters = command.Split(' ');
+            User user = stregsystem.GetUserByUsername(parameters[0]);
         }
 
         private void InitializeMenu()

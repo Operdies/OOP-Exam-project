@@ -1,18 +1,8 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Eksamensopgave2016.Controller;
-using Eksamensopgave2016.Core;
-using Eksamensopgave2016.Interface;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 
+using System;
 
 namespace Eksamensopgave2016
 {
