@@ -53,23 +53,13 @@ namespace Eksamensopgave2016.Core
                 .Where(transaction => transaction.User.Equals(user)).ToList();
 
             UserTransactions.Sort();
+
             return UserTransactions.GetRange(0, count).AsEnumerable();
-
-            //List<Transaction> RecentTransactions = new List<Transaction>();
-
-            //for (int index = 0; index < count; index++)
-            //{
-            //    RecentTransactions.Add(UserTransactions[index]);
-            //}
-            //return RecentTransactions.AsEnumerable();
         }
 
         public User GetUser(Func<User, bool> predicate)
         {
-            return User.UserDictionary.Values.First(predicate.Invoke);
-            //GetUser(x => x.UserID == 5);
-            
-            throw new NotImplementedException();
+            return User.UserDictionary.Values.First(predicate);
         }
 
         public User GetUserByUsername(string username)

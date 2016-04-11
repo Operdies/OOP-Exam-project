@@ -32,9 +32,5 @@ namespace Eksamensopgave2016
 
             Console.ReadKey();
         }
-        //public static User GetUser(Func<User, bool> predicate)
-        //{
-        //    return User.UserDictionary.Values.First(predicate);
-        //}
     }
 }

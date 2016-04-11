@@ -22,37 +22,39 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayUserNotFound(string username)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"No user with the username {username} was found.");
         }
 
         public void DisplayProductNotFound(string product)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"No product was found for {product}");
         }
 
         public void DisplayUserInfo(User user)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(user.ToString());
         }
 
         public void DisplayTooManyArgumentsError(string command)
         {
-               
-            throw new NotImplementedException();
+            Console.WriteLine($"Command {command} has too many arguments.");
         }
 
         public void DisplayAdminCommandNotFoundMessage(string adminCommand)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The command {adminCommand} is not a valid admin command.");
         }
 
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(transaction + "\n" +
+                "Product purchase succeeded.");
         }
 
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
+            Console.WriteLine(transaction + "\n" +
+                $"Product purchase succeeded {count} times");
             throw new NotImplementedException();
         }
 
