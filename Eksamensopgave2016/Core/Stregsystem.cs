@@ -19,25 +19,23 @@ namespace Eksamensopgave2016.Core
             get
             {
                 return Product.ProductDictionary.Values.Where(product => product.Active).AsEnumerable();
-                //return
-                //    (from product in Product.ProductDictionary where product.Value.Active select product.Value).AsEnumerable();
             }
         }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
-            return new InsertCashTransaction(user, amount);
+            var transaction = new InsertCashTransaction(user, amount);
+            ExecuteTransaction(transaction);
+            return transaction;
         }
 
         public BuyTransaction BuyProduct(User user, Product item)
         {
-            return new BuyTransaction(user, item);
-            //BuyTransaction purchase = new BuyTransaction(user, item);
-            //ExecuteTransaction(purchase);
-            
-            //return purchase;
+            var transaction = new BuyTransaction(user, item);
+            ExecuteTransaction(transaction);
+            return transaction;
         }
 
-        public void ExecuteTransaction(Transaction transaction)
+        private void ExecuteTransaction(Transaction transaction)
         {
             transaction.Execute();
         }
@@ -53,7 +51,8 @@ namespace Eksamensopgave2016.Core
                 .Where(transaction => transaction.User.Equals(user)).ToList();
 
             UserTransactions.Sort();
-
+            int list = UserTransactions.Count;
+            count = count < list ? count : list;
             return UserTransactions.GetRange(0, count).AsEnumerable();
         }
 

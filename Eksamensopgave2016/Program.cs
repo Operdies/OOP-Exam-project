@@ -3,8 +3,11 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Eksamensopgave2016.Controller;
 using Eksamensopgave2016.Core;
+using Eksamensopgave2016.Interface;
 
 namespace Eksamensopgave2016
 {
@@ -12,22 +15,12 @@ namespace Eksamensopgave2016
     {
         static void Main(string[] args)
         {
-            /*
-            IStregsystem stregsystem = new Stregsystem();
-            IStregsystemUI ui = new StregsystemCLI(stregsystem);
-            StregsystemController sc = new StregsystemController(ui, stregsystem);
 
-            ui.Start();
-            */
+            //IStregsystem stregsystem = new Stregsystem();
+            //IStregsystemUI ui = new StregsystemCLI(stregsystem);
+            ////StregsystemController sc = new StregsystemController(ui, stregsystem);
 
-            //new User("le", "le", "lele@lele.com", "lel");
-            //new User("la", "lo", "li@le.com", "Operdies");
-            
-
-            //User user = GetUser(x => x.UserID == 1);
-            //User otherUser = GetUser(x => x.Username == "Operdies");
-            //Console.WriteLine(user);
-            //Console.WriteLine(otherUser);
+            //ui.Start();
 
 
             Console.ReadKey();

@@ -3,9 +3,12 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Eksamensopgave2016.Core;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 
 namespace Eksamensopgave2016.Interface
@@ -14,8 +17,8 @@ namespace Eksamensopgave2016.Interface
     class StregsystemCLI : IStregsystemUI
     {
         private bool _running = true;
-        private readonly Stregsystem stregsystem;
-        public StregsystemCLI(Stregsystem _stregsystem)
+        private readonly IStregsystem stregsystem;
+        public StregsystemCLI(IStregsystem _stregsystem)
         {
             stregsystem = _stregsystem;
         }
@@ -26,7 +29,7 @@ namespace Eksamensopgave2016.Interface
         }
 
         public void DisplayProductNotFound(string product)
-        {
+        {            
             Console.WriteLine($"No product was found for {product}");
         }
 
@@ -55,7 +58,6 @@ namespace Eksamensopgave2016.Interface
         {
             Console.WriteLine(transaction + "\n" +
                 $"Product purchase succeeded {count} times");
-            throw new NotImplementedException();
         }
 
         public void Close()
@@ -65,12 +67,14 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            throw new NotImplementedException();
+            decimal discrepancy = (product.PriceDecimal - user.BalanceDecimal)/100;
+            Console.WriteLine($"{user.Username} has insufficient credits to purchase {product.ProductName}\n"+
+                $"You are {discrepancy} short.");
         }
 
         public void DisplayGeneralError(string errorString)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"An error occurred: {errorString}");
         }
 
         //public event StregsystemEvent CommandEntered;
@@ -80,7 +84,6 @@ namespace Eksamensopgave2016.Interface
             InitializeMenu();
             while (_running)
             {
-
                 DrawMenu();
                 HandleUserInput();
             }
@@ -91,9 +94,9 @@ namespace Eksamensopgave2016.Interface
         {
             Console.WriteLine();
             Console.WriteLine("Quickbuy: Type in your username followed by a space and then the product ID");
+            Console.WriteLine("To multibuy, insert a non-negative number between your username and product ID");
             string command = Console.ReadLine();
-            string[] parameters = command.Split(' ');
-            User user = stregsystem.GetUserByUsername(parameters[0]);
+            
         }
 
         private void InitializeMenu()
@@ -149,15 +152,15 @@ namespace Eksamensopgave2016.Interface
         private string GetMenuPath()
         {
             string path = new DirectoryInfo(Directory.GetCurrentDirectory()).Parent?.Parent?.FullName;
-            return path + "products.csv";
+            return path + @"\products.csv";
         }
 
         private void DrawMenu()
         {
-            //for (int index = 0; index < ProductList.Count; index++)
-            //{
-            //    Console.WriteLine("loL");
-            //}
+            foreach (Product item in stregsystem.ActiveProducts)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

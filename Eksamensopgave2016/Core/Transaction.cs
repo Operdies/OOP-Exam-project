@@ -10,7 +10,7 @@ namespace Eksamensopgave2016.Core
 {
     public abstract class Transaction : IComparable<Transaction>
     {
-        public static Dictionary<int, Transaction> TransactionDictionary { get; private set; } 
+        public static Dictionary<int, Transaction> TransactionDictionary = new Dictionary<int, Transaction>();
         private static int NextID = 1;
         public int TransactionID { get; private set; }
         public User User { get; }
