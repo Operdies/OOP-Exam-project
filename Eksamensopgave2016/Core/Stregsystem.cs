@@ -66,7 +66,9 @@ namespace Eksamensopgave2016.Core
 
         public User GetUser(Func<User, bool> predicate)
         {
+            return User.UserDictionary.Values.First(predicate.Invoke);
             //GetUser(x => x.UserID == 5);
+            
             throw new NotImplementedException();
         }
 

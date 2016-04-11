@@ -11,7 +11,7 @@ namespace Eksamensopgave2016.Core
 
     public class User : IComparable<User>
     {
-        public static Dictionary<int, User> UserDictionary { get; private set; } 
+        public static Dictionary<int, User> UserDictionary = new Dictionary<int, User>();
         private static int NextID = 1;
         public int UserID { get; }
         private string _firstName;
@@ -93,6 +93,7 @@ namespace Eksamensopgave2016.Core
             FirstName = firstName;
             LastName = lastName;
             Username = username;
+
             UserDictionary.Add(UserID, this);
         }
 
