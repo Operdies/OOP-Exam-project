@@ -8,7 +8,9 @@ using System.Diagnostics;
 using Eksamensopgave2016.Core;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
+using Eksamensopgave2016.Controller;
 
 
 namespace Eksamensopgave2016.Interface
@@ -18,9 +20,11 @@ namespace Eksamensopgave2016.Interface
     {
         private bool _running = true;
         private readonly IStregsystem stregsystem;
+        private readonly StregsystemController controller;
         public StregsystemCLI(IStregsystem _stregsystem)
         {
             stregsystem = _stregsystem;
+            controller = new StregsystemController(this, stregsystem);
         }
 
         public void DisplayUserNotFound(string username)
@@ -74,7 +78,7 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayGeneralError(string errorString)
         {
-            Console.WriteLine($"An error occurred: {errorString}");
+            Console.WriteLine(errorString);
         }
 
         //public event StregsystemEvent CommandEntered;
@@ -96,7 +100,7 @@ namespace Eksamensopgave2016.Interface
             Console.WriteLine("Quickbuy: Type in your username followed by a space and then the product ID");
             Console.WriteLine("To multibuy, insert a non-negative number between your username and product ID");
             string command = Console.ReadLine();
-            
+            controller.ParseCommand(command);
         }
 
         private void InitializeMenu()
@@ -108,7 +112,7 @@ namespace Eksamensopgave2016.Interface
 
         private void ReadMenu(StreamReader menuReader)
         {
-            menuReader.ReadLine();//Skips first line
+            menuReader.ReadLine(); //Skips first line
             while (!menuReader.EndOfStream)
             {
                 string line = menuReader.ReadLine();

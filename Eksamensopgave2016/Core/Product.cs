@@ -24,9 +24,9 @@ namespace Eksamensopgave2016.Core
             }
         }
 
-        public decimal PriceDecimal { get; private set; }
-        public bool Active { get; private set; }
-        public bool CanBeBoughtOnCredit { get; private set; }
+        public decimal PriceDecimal { get; set; }
+        public bool Active { get; set; }
+        public bool CanBeBoughtOnCredit { get; set; }
 
         public override string ToString()
         {
