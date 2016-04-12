@@ -26,7 +26,7 @@ namespace Eksamensopgave2016.Core
             if (User.BalanceDecimal >= Amount) return;
             if (!Item.CanBeBoughtOnCredit)
                 throw new InsufficientCreditsException($"User: {User.Username} has insufficient funds for product {Item.ProductName}\n" + 
-                    $"{User.Username} has {User.BalanceDecimal:C} available, but the item is {Item.PriceDecimal:C}.\n" +
+                    $"{User.Username} has {User.BalanceDecimal/100:C} available, but the item is {Item.PriceDecimal/100:C}.\n" +
                     "Transfer aborted");
         }
 

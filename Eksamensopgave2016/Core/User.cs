@@ -61,13 +61,12 @@ namespace Eksamensopgave2016.Core
                 _email = value.ToLower();
             }
         }
-
-        private decimal _balanceDecimal;
-        public decimal BalanceDecimal => _balanceDecimal/100;
+        
+        public decimal BalanceDecimal { get; set; }
 
         public void AddCredits(decimal amount)
         {
-            _balanceDecimal += amount;
+            BalanceDecimal += amount;
         }
 
         public int CompareTo(User other)

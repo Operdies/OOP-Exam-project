@@ -40,10 +40,10 @@ namespace Eksamensopgave2016.Core
         public override string ToString()
         {
             return (
-                $"Transaction ID : {TransactionID}\n" +
-                $"User : {User}\n" +
-                $"Amount : {Amount}\n"+
-                $"Time of transaction:{Date}"
+                $"Transaction ID      : {TransactionID}\n" +
+                $"User                : {User}\n" +
+                $"Amount              : {Amount/100}\n"+
+                $"Time of transaction : {Date}"
                 );
         }
     }

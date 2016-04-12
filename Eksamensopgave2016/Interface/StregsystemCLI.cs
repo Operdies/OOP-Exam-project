@@ -41,7 +41,7 @@ namespace Eksamensopgave2016.Interface
         {
             Console.WriteLine($"Username: {user.Username}");
             Console.WriteLine($"Full name: {user.FirstName} {user.LastName}");
-            Console.WriteLine($"User balance: {user.BalanceDecimal:C}");
+            Console.WriteLine($"User balance: {user.BalanceDecimal/100:C}");
             IEnumerable<Transaction> recentTransactions = stregsystem.GetTransactions(user, 10);
             foreach (Transaction recentTransaction in recentTransactions)
             {
@@ -81,7 +81,7 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            decimal discrepancy = (product.PriceDecimal - user.BalanceDecimal);
+            decimal discrepancy = (product.PriceDecimal - user.BalanceDecimal)/100;
             Console.WriteLine($"{user.Username} has insufficient credits to purchase {product.ProductName}\n"+
                 $"You are {discrepancy:C} short.");
         }
