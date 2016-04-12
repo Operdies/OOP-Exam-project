@@ -15,8 +15,7 @@ using Eksamensopgave2016.Controller;
 
 namespace Eksamensopgave2016.Interface
 {
-    
-    class StregsystemCLI : IStregsystemUI
+    public class StregsystemCLI : IStregsystemUI
     {
         private bool _running = true;
         private readonly IStregsystem stregsystem;
@@ -25,15 +24,16 @@ namespace Eksamensopgave2016.Interface
         {
             stregsystem = _stregsystem;
             controller = new StregsystemController(this, stregsystem);
+            stregsystem.UserBalanceWarning += BalanceWarning;
         }
 
         public delegate void CommandHandler(string command);
 
-        public event CommandHandler CommandEntered;
+        public event CommandHandler StregSystemEvent;
 
         public void BalanceWarning(User user, decimal balance)
         {
-            Console.WriteLine($"Warning: Balance for user {user.Username} is low. Current balance: {balance}");
+            Console.WriteLine($"Warning: Balance for user {user.Username} is low. Current balance: {balance/100:C}");
         }
 
         public void DisplayUserNotFound(string username)
@@ -57,7 +57,7 @@ namespace Eksamensopgave2016.Interface
                 Console.WriteLine(recentTransaction);
             }
             if (user.BalanceDecimal < 50)
-                Console.WriteLine($"Warning: Your funds are low ({user.BalanceDecimal/100:C})");
+                BalanceWarning(user, user.BalanceDecimal);
         }
 
         public void DisplayTooManyArgumentsError(string command)
@@ -103,6 +103,8 @@ namespace Eksamensopgave2016.Interface
             Console.ReadKey();
         }
 
+        
+
         public void Start()
         {
             InitializeMenu();
@@ -119,8 +121,8 @@ namespace Eksamensopgave2016.Interface
             Console.WriteLine();
             Console.WriteLine("Quickbuy: Type in your username followed by a space and then the product ID");
             Console.WriteLine("To multibuy, insert a non-negative number between your username and product ID");
-            string command = Console.ReadLine();
-            controller.ParseCommand(command);
+            StregSystemEvent(Console.ReadLine());
+            //controller.ParseCommand(command);
         }
 
         private void InitializeMenu()

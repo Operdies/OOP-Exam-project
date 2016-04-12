@@ -17,7 +17,7 @@ namespace Eksamensopgave2016.Interface
         void Close();
         void DisplayInsufficientCash(User user, Product product);
         void DisplayGeneralError(string errorString);
-        //event StregsystemEvent CommandEntered;
+        event StregsystemCLI.CommandHandler StregSystemEvent;
         
         void Start();
     }

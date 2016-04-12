@@ -18,6 +18,6 @@ namespace Eksamensopgave2016.Interface
         IEnumerable<Transaction> GetTransactions(User user, int count);
         User GetUser(Func<User, bool> predicate);
         User GetUserByUsername(string username);
-        //event UserBalanceNotification UserBalanceWarning;
+        event User.UserBalanceNotifications UserBalanceWarning;
     }
 }

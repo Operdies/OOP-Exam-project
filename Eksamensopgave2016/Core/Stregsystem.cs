@@ -8,12 +8,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Eksamensopgave2016.Interface;
+using Eksamensopgave2016.Core;
 
 
 namespace Eksamensopgave2016.Core
 {
     class Stregsystem : IStregsystem
     {
+        public event User.UserBalanceNotifications UserBalanceWarning;
         public IEnumerable<Product> ActiveProducts
         {
             get
@@ -21,6 +23,7 @@ namespace Eksamensopgave2016.Core
                 return Product.ProductDictionary.Values.Where(product => product.Active).AsEnumerable();
             }
         }
+
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
             var transaction = new InsertCashTransaction(user, amount);
@@ -70,6 +73,10 @@ namespace Eksamensopgave2016.Core
             User user;
             if (!User.UserDictionary.TryGetValue(username, out user))
                 throw new ArgumentException($"No match found for username {username}");
+            if (user.BalanceDecimal < 5000)
+            {
+                UserBalanceWarning(user, user.BalanceDecimal/100);
+            }
             return user;
         }
     }

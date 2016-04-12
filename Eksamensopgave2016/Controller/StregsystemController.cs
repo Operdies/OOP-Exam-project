@@ -31,6 +31,7 @@ namespace Eksamensopgave2016.Controller
             UserInterface = ui;
             Stregsystem = stregsystem;
             SetAdminCommands();
+            UserInterface.StregSystemEvent += ParseCommand;
         }
 
         public void ParseCommand(string command)
