@@ -42,8 +42,9 @@ namespace Eksamensopgave2016.Core
         public Product GetProductByID(int productID)
         {
             Product item;
-            return Product.ProductDictionary.TryGetValue(productID, out item) ? item : null;
-            //returns null if no product is found
+            if (!Product.ProductDictionary.TryGetValue(productID, out item))
+                throw new ArgumentException($"No match for product ID {productID}");
+            return item;
         }
 
         public IEnumerable<Transaction> GetTransactions(User user, int count)
@@ -67,7 +68,9 @@ namespace Eksamensopgave2016.Core
         {
             username = username.ToLower();
             User user;
-            return User.UserDictionary.TryGetValue(username, out user) ? user : null;
+            if (!User.UserDictionary.TryGetValue(username, out user))
+                throw new ArgumentException($"No match found for username {username}");
+            return user;
             //returns null if no user is found
         }
     }

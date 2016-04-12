@@ -52,7 +52,7 @@ namespace Eksamensopgave2016.Core
             return (
                 $"Transaction ID : {TransactionID}\n " +
                 $"User : {User}\n " +
-                $"Amount : {Amount/100:C}\n "+
+                $"Amount : {Amount/100:C}\n " +
                 $"Time of transaction : {Date} "
                 );
         }

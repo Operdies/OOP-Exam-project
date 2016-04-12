@@ -27,6 +27,15 @@ namespace Eksamensopgave2016.Interface
             controller = new StregsystemController(this, stregsystem);
         }
 
+        public delegate void CommandHandler(string command);
+
+        public event CommandHandler CommandEntered;
+
+        public void BalanceWarning(User user, decimal balance)
+        {
+            Console.WriteLine($"Warning: Balance for user {user.Username} is low. Current balance: {balance}");
+        }
+
         public void DisplayUserNotFound(string username)
         {
             Console.WriteLine($"No user with the username {username} was found.");
@@ -36,19 +45,19 @@ namespace Eksamensopgave2016.Interface
         {            
             Console.WriteLine($"No product was found for {product}");
         }
-
         public void DisplayUserInfo(User user)
         {
             Console.WriteLine($"Username: {user.Username}");
             Console.WriteLine($"Full name: {user.FirstName} {user.LastName}");
             Console.WriteLine($"User balance: {user.BalanceDecimal/100:C}");
             IEnumerable<Transaction> recentTransactions = stregsystem.GetTransactions(user, 10);
+
             foreach (Transaction recentTransaction in recentTransactions)
             {
                 Console.WriteLine(recentTransaction);
             }
             if (user.BalanceDecimal < 50)
-                Console.WriteLine($"Warning: Your funds are low ({user.BalanceDecimal:C})");
+                Console.WriteLine($"Warning: Your funds are low ({user.BalanceDecimal/100:C})");
         }
 
         public void DisplayTooManyArgumentsError(string command)
@@ -89,7 +98,9 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayGeneralError(string errorString)
         {
-            Console.WriteLine("An error occurred. " + errorString);
+            Console.WriteLine("An error has occurred.");
+            Console.WriteLine(errorString);
+            Console.ReadKey();
         }
 
         public void Start()
@@ -175,7 +186,5 @@ namespace Eksamensopgave2016.Interface
                 Console.WriteLine(item);
             }
         }
-        //public event StregsystemEvent CommandEntered;
     }
-    //public delegate void StregsystemEvent(object sender, StregsystemEventArgs args);
 }

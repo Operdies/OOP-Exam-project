@@ -1,8 +1,8 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
-
-
+using System;
+using System.ComponentModel.Design;
 
 namespace Eksamensopgave2016.Core
 {
@@ -23,6 +23,10 @@ namespace Eksamensopgave2016.Core
 
         private void CanPurchase()
         {
+            if (!Item.Active)
+            {
+                throw new ArgumentException("Chosen item is inactive. You may only buy items that are on the list");
+            }
             if (User.BalanceDecimal >= Amount) return;
             if (!Item.CanBeBoughtOnCredit)
                 throw new InsufficientCreditsException($"User: {User.Username} has insufficient funds for product {Item.ProductName}\n" + 

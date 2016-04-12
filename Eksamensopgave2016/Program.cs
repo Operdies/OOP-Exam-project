@@ -2,10 +2,6 @@
 
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Eksamensopgave2016.Controller;
 using Eksamensopgave2016.Core;
 using Eksamensopgave2016.Interface;
 

@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 namespace Eksamensopgave2016.Core
 {
-    public delegate void UserBalanceNotifications(User user, decimal Balance);
-
     public class User : IComparable<User>
     {
         public static Dictionary<string, User> UserDictionary = new Dictionary<string, User>();
@@ -116,5 +114,6 @@ namespace Eksamensopgave2016.Core
             }
             return new string(name);
         }
+        public delegate void UserBalanceNotifications(User user, decimal Balance);
     }
 }

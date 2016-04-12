@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using Eksamensopgave2016.Interface;
 using Eksamensopgave2016.Core;
 
@@ -35,26 +37,46 @@ namespace Eksamensopgave2016.Controller
 
         public void ParseCommand(string command)
         {
-            string[] commandParameters =
-                command.Split(' ').Where(str => string.IsNullOrWhiteSpace(str) == false).ToArray();
-            //Splits the string by spaces and removes white space. An expanded string.Trim()
-
-            if (commandParameters.Length > 3)
+            try
             {
-                UserInterface.DisplayTooManyArgumentsError(command);
-                ErrorMessage("");
-                return;
-            }
-            if (commandParameters.Length < 1)
-            {
-                ErrorMessage("Command must contain at least one argument.");
-                return;
-            }
-            if (commandParameters[0].StartsWith(":"))
-                AdminCommand(commandParameters);
-            else ParseUserCommand(commandParameters);
+                string[] commandParameters =
+                    command.Split(' ').Where(str => string.IsNullOrWhiteSpace(str) == false).ToArray();
+                //Splits the string by spaces and removes white space. An expanded string.Trim()
 
-            Console.ReadKey();
+                if (commandParameters.Length > 3)
+                {
+                    throw new ArgumentException("Command must contain at most three arguments.\n" +
+                                                $"Your command was: {command}");
+
+                }
+                if (commandParameters.Length < 1)
+                {
+                    throw new ArgumentException("Command must contain at least one argument");
+                }
+                if (commandParameters[0].StartsWith(":"))
+                    AdminCommand(commandParameters);
+                else ParseUserCommand(commandParameters);
+
+                Console.ReadKey();
+            }
+
+            catch (ArgumentNullException exception)
+            {
+                ErrorMessage(exception.Message);
+            }
+            catch (ArgumentException exception)
+            {
+                ErrorMessage(exception.Message);
+            }
+            catch (InsufficientCreditsException exception)
+            {
+                ErrorMessage(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                ErrorMessage(exception.Message);
+            }
+
         }
 
         private void AdminCommand(string[] commandParameters)
@@ -76,80 +98,52 @@ namespace Eksamensopgave2016.Controller
                 default:
                     UserInterface.DisplayAdminCommandNotFoundMessage(command);
                     break;
-            }            
+            }
         }
 
         private void ParseUserCommand(string[] commandParameters)
         {
             string username = commandParameters[0];
-            User user = Stregsystem.GetUserByUsername(username);
+            User user;
 
-            if (user == null)
-            {
-                UserInterface.DisplayUserNotFound(username);
-                ErrorMessage("");
-                return;
-            }
+            user = Stregsystem.GetUserByUsername(username);
 
             int count = 0;
+
             Product item = null;
 
             if (commandParameters.Length > 1)
             {
-                int productID = 0;
+                int productID;
                 if (!int.TryParse(commandParameters.Last(), out productID))
                 {
-                    ErrorMessage("Product ID parameter was not a number!");
-                    return;
+                    throw new ArgumentException("Last parameter was not a number!");
                 }
                 if (!int.TryParse(commandParameters[1], out count))
                 {
-                    ErrorMessage("Multibuy parameter was not a number!");
-                    return;
+                    throw new ArgumentException("Second parameter was not a number!");
+                }
+                if (count < 1)
+                {
+                    throw new ArgumentException("Multibuy parameter must be a positive integer");
                 }
                 item = Stregsystem.GetProductByID(productID);
-
-                if (item == null)
-                {
-                    UserInterface.DisplayProductNotFound("Product ID: " + productID);
-                    ErrorMessage("");
-                    return;
-                }
-
-                if (!item.Active)
-                {
-                    ErrorMessage("Selected item is inactive.");
-                    return;
-                }
-
             }
 
-            
-
-
+            switch (commandParameters.Length)
             {
-                try
-                {
-                    switch (commandParameters.Length)
-                    {
-                        case 1:
-                            UserInterface.DisplayUserInfo(user);
-                            break;
-                        case 2:
-                            QuickBuy(user, item);
-                            break;
-                        case 3:
-                            MultiQuickBuy(user, item, count);
-                            break;
-                    }
-                }
-                catch (InsufficientCreditsException e)
-                {
-                    UserInterface.DisplayInsufficientCash(user, item);
-                    ErrorMessage(e.Message);
-                }
+                case 1:
+                    UserInterface.DisplayUserInfo(user);
+                    break;
+                case 2:
+                    QuickBuy(user, item);
+                    break;
+                case 3:
+                    MultiQuickBuy(user, item, count);
+                    break;
             }
         }
+
 
         private void QuickBuy(User user, Product item)
         {
@@ -159,6 +153,10 @@ namespace Eksamensopgave2016.Controller
 
         private void MultiQuickBuy(User user, Product item, int count)
         {
+            if (user.BalanceDecimal < count * item.PriceDecimal && item.CanBeBoughtOnCredit == false)
+                throw new InsufficientCreditsException($"User: {user.Username} has insufficient funds for product {item.ProductName}\n" +
+                    $"{user.Username} has {user.BalanceDecimal / 100:C} available, but the item is {count * item.PriceDecimal / 100:C}.\n" +
+                    "Transfer aborted");
             for (int i = 0; i < count - 1; i++)
             {
                 MakePurchase(user, item);
@@ -175,7 +173,6 @@ namespace Eksamensopgave2016.Controller
         private void ErrorMessage(string errorString)
         {
             UserInterface.DisplayGeneralError(errorString);
-            Console.ReadKey();
         }
 
         #region Admin Commands
