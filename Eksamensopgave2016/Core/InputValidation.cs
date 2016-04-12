@@ -22,7 +22,8 @@ namespace Eksamensopgave2016.Core
 
         public static void ValidateUsername(string username)
         {
-            
+            if (User.UserDictionary.ContainsKey(username))
+                throw new ArgumentException("Username is not unique!");
             if (username.Where(ch => !char.IsLetterOrDigit(ch)).Any(ch => ch != '_'))
                 throw new ArgumentException("Username must only contain letters, numbers and underscores (\"_\")!");
         }

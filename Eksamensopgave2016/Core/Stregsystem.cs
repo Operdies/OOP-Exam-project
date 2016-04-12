@@ -41,7 +41,9 @@ namespace Eksamensopgave2016.Core
         }
         public Product GetProductByID(int productID)
         {
-            return Product.ProductDictionary.Values.First(item => item.ProductID == productID);
+            Product item;
+            return Product.ProductDictionary.TryGetValue(productID, out item) ? item : null;
+            //returns null if no product is found
         }
 
         public IEnumerable<Transaction> GetTransactions(User user, int count)
@@ -64,7 +66,9 @@ namespace Eksamensopgave2016.Core
         public User GetUserByUsername(string username)
         {
             username = username.ToLower();
-            return User.UserDictionary.Values.First(user => user.Username.ToLower() == username);
+            User user;
+            return User.UserDictionary.TryGetValue(username, out user) ? user : null;
+            //returns null if no user is found
         }
     }
 }

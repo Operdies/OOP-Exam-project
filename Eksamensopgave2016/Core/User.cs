@@ -11,7 +11,7 @@ namespace Eksamensopgave2016.Core
 
     public class User : IComparable<User>
     {
-        public static Dictionary<int, User> UserDictionary = new Dictionary<int, User>();
+        public static Dictionary<string, User> UserDictionary = new Dictionary<string, User>();
         private static int NextID = 1;
         public int UserID { get; }
         private string _firstName;
@@ -62,7 +62,13 @@ namespace Eksamensopgave2016.Core
             }
         }
 
-        public decimal BalanceDecimal { get;  set; }
+        private decimal _balanceDecimal;
+        public decimal BalanceDecimal => _balanceDecimal/100;
+
+        public void AddCredits(decimal amount)
+        {
+            _balanceDecimal += amount;
+        }
 
         public int CompareTo(User other)
         {
@@ -92,9 +98,9 @@ namespace Eksamensopgave2016.Core
             Email = email.ToLower().Trim();
             FirstName = firstName;
             LastName = lastName;
-            Username = username;
+            Username = username.ToLower();
 
-            UserDictionary.Add(UserID, this);
+            UserDictionary.Add(Username, this);
         }
 
         private string FormatName(string oldName)

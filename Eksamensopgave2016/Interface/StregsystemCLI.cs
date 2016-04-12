@@ -39,7 +39,16 @@ namespace Eksamensopgave2016.Interface
 
         public void DisplayUserInfo(User user)
         {
-            Console.WriteLine(user.ToString());
+            Console.WriteLine($"Username: {user.Username}");
+            Console.WriteLine($"Full name: {user.FirstName} {user.LastName}");
+            Console.WriteLine($"User balance: {user.BalanceDecimal:C}");
+            IEnumerable<Transaction> recentTransactions = stregsystem.GetTransactions(user, 10);
+            foreach (Transaction recentTransaction in recentTransactions)
+            {
+                Console.WriteLine(recentTransaction);
+            }
+            if (user.BalanceDecimal < 50)
+                Console.WriteLine($"Warning: Your funds are low ({user.BalanceDecimal:C})");
         }
 
         public void DisplayTooManyArgumentsError(string command)
@@ -67,18 +76,19 @@ namespace Eksamensopgave2016.Interface
         public void Close()
         {
             _running = false;
+            Console.WriteLine("Exiting. Goodbye");
         }
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            decimal discrepancy = (product.PriceDecimal - user.BalanceDecimal)/100;
+            decimal discrepancy = (product.PriceDecimal - user.BalanceDecimal);
             Console.WriteLine($"{user.Username} has insufficient credits to purchase {product.ProductName}\n"+
-                $"You are {discrepancy} short.");
+                $"You are {discrepancy:C} short.");
         }
 
         public void DisplayGeneralError(string errorString)
         {
-            Console.WriteLine(errorString);
+            Console.WriteLine("An error occurred. " + errorString);
         }
 
         //public event StregsystemEvent CommandEntered;
@@ -91,7 +101,7 @@ namespace Eksamensopgave2016.Interface
                 DrawMenu();
                 HandleUserInput();
             }
-            throw new NotImplementedException();
+            
         }
 
         private void HandleUserInput()

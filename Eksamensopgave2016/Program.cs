@@ -15,15 +15,12 @@ namespace Eksamensopgave2016
     {
         static void Main(string[] args)
         {
+            User newuser = new User("lel", "lel", "lel@lel.lel", "lmao");
 
-            //IStregsystem stregsystem = new Stregsystem();
-            //IStregsystemUI ui = new StregsystemCLI(stregsystem);
-            ////StregsystemController sc = new StregsystemController(ui, stregsystem);
+            IStregsystem stregsystem = new Stregsystem();
+            IStregsystemUI ui = new StregsystemCLI(stregsystem);
+            ui.Start();
 
-            //ui.Start();
-
-
-            Console.ReadKey();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Eksamensopgave2016.Core
         public override void Execute()
         {
             CanPurchase();
-            User.BalanceDecimal -= Amount;
+            User.AddCredits(Amount * -1);
             base.Execute();
         }
 

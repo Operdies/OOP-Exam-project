@@ -1,97 +1,193 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
-
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Eksamensopgave2016.Interface;
+using Eksamensopgave2016.Core;
 
 namespace Eksamensopgave2016.Controller
 {
     class StregsystemController
     {
+        private readonly Dictionary<string, Delegate> AdminCommands = new Dictionary<string, Delegate>();
         private readonly IStregsystemUI UserInterface;
         private readonly IStregsystem Stregsystem;
+
+        private void SetAdminCommands()
+        {
+            AdminCommands.Add(":q", new Action(ExitProgram));
+            AdminCommands.Add(":quit", AdminCommands[":q"]);
+            AdminCommands.Add(":deactivate", new Action<int>(DeactivateProduct));
+            AdminCommands.Add(":activate", new Action<int>(ActivateProduct));
+            AdminCommands.Add(":crediton", new Action<int>(CreditOn));
+            AdminCommands.Add(":creditoff", new Action<int>(CreditOff));
+            AdminCommands.Add(":addcredits", new Action<string, int>(AddCreditsToUserAccount));
+        }
 
         public StregsystemController(IStregsystemUI ui, IStregsystem stregsystem)
         {
             UserInterface = ui;
             Stregsystem = stregsystem;
-        }
-
-        private void wait()
-        {
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            SetAdminCommands();
         }
 
         public void ParseCommand(string command)
         {
             string[] commandParameters =
                 command.Split(' ').Where(str => string.IsNullOrWhiteSpace(str) == false).ToArray();
-            if (commandParameters.Length < 1)
-            {
-                ErrorMessage("No arguments given");
-                return;
-            }
+            //Splits the string by spaces and removes white space. An expanded string.Trim()
+
             if (commandParameters.Length > 3)
             {
                 UserInterface.DisplayTooManyArgumentsError(command);
-                wait();
+                ErrorMessage("");
+                return;
+            }
+            if (commandParameters.Length < 1)
+            {
+                ErrorMessage("Command must contain at least one argument.");
                 return;
             }
             if (commandParameters[0].StartsWith(":"))
                 AdminCommand(commandParameters);
-
             else ParseUserCommand(commandParameters);
-            
-            //Splits the string by spaces and removes white space. An expanded string.Trim()
-
         }
+
         private void AdminCommand(string[] commandParameters)
         {
-            string command = commandParameters[0].Substring(1);
-            //quit / q              close();
-            //activate / deactivate productid
-            //crediton / creditoff  productid
-            //addcredits            username, amount
-
+            string command = commandParameters[0];
+            string user = commandParameters.Length > 1 ? commandParameters[1] : "";
+            int ID = commandParameters.Length > 1 ? int.Parse(commandParameters.Last()) : 0;
+            switch (commandParameters.Length)
+            {
+                case 1:
+                    AdminCommands[command].DynamicInvoke();
+                    break;
+                case 2:
+                    AdminCommands[command].DynamicInvoke(ID);
+                    break;
+                case 3:
+                    AdminCommands[command].DynamicInvoke(user, ID);
+                    break;
+                default:
+                    UserInterface.DisplayAdminCommandNotFoundMessage(command);
+                    break;
+            }
+            Console.ReadKey();
         }
 
         private void ParseUserCommand(string[] commandParameters)
         {
             string username = commandParameters[0];
-            int productID;
-            int count;
-            Core.User user = Stregsystem.GetUserByUsername(username);
+            User user = Stregsystem.GetUserByUsername(username);
+
+            if (user == null)
+            {
+                UserInterface.DisplayUserNotFound(username);
+                ErrorMessage("");
+                return;
+            }
+
+            int count = 0;
+            Product item = null;
+
+            if (commandParameters.Length > 1)
+            {
+                int productID;
+                if (!int.TryParse(commandParameters.Last(), out productID))
+                    ErrorMessage("Product ID parameter was not a number!");
+                if (!int.TryParse(commandParameters[1], out count))
+                    ErrorMessage("Multibuy parameter was not a number!");
+                item = Stregsystem.GetProductByID(productID);
+
+                if (item == null)
+                {
+                    UserInterface.DisplayProductNotFound("Product ID: " + productID);
+                    ErrorMessage("");
+                    return;
+                }
+            }
+            
+
+            {
+                try
+                {
+                    switch (commandParameters.Length)
+                    {
+                        case 1:
+                            UserInterface.DisplayUserInfo(user);
+                            break;
+                        case 2:
+                            QuickBuy(user, item);
+                            break;
+                        case 3:
+                            MultiQuickBuy(user, item, count);
+                            break;
+                    }
+                }
+                catch (InsufficientCreditsException e)
+                {
+                    UserInterface.DisplayInsufficientCash(user, item);
+                    ErrorMessage(e.Message);
+                }
+            }
+            Console.ReadKey();
+        }
+
+        private void QuickBuy(User user, Product item)
+        {
+            BuyTransaction transaction = MakePurchase(user, item);
+            UserInterface.DisplayUserBuysProduct(transaction);
+        }
+
+        private void MultiQuickBuy(User user, Product item, int count)
+        {
+            for (int i = 0; i < count - 1; i++)
+            {
+                MakePurchase(user, item);
+            }
+            BuyTransaction transaction = MakePurchase(user, item);
+            UserInterface.DisplayUserBuysProduct(count, transaction);
+        }
+
+        private BuyTransaction MakePurchase(User user, Product item)
+        {
+            return Stregsystem.BuyProduct(user, item);
         }
 
         private void ErrorMessage(string errorString)
         {
             UserInterface.DisplayGeneralError(errorString);
-            wait();
-        }
-        private void MakePurchase(string username, int productID, int count)
-        {
-            Core.User user = Stregsystem.GetUserByUsername(username);
-            Core.Product product = Stregsystem.GetProductByID(productID);
-            Core.BuyTransaction transaction = Stregsystem.BuyProduct(user, product);
-            UserInterface.DisplayUserBuysProduct(transaction);
+            Console.ReadKey();
         }
 
-        private void SetProductActiveBool(int productID, bool state)
+        #region Admin Commands
+
+        private void ActivateProduct(int productID)
         {
-            Stregsystem.GetProductByID(productID).Active = state;
+            Stregsystem.GetProductByID(productID).Active = true;
         }
 
-        private void SetProductCanBePurchasedOnCreditBool(int productID, bool state)
+        private void DeactivateProduct(int productID)
         {
-            Stregsystem.GetProductByID(productID).CanBeBoughtOnCredit = state;
+            Stregsystem.GetProductByID(productID).Active = false;
+        }
+
+        private void CreditOn(int productID)
+        {
+            Stregsystem.GetProductByID(productID).CanBeBoughtOnCredit = true;
+        }
+
+        private void CreditOff(int productID)
+        {
+            Stregsystem.GetProductByID(productID).CanBeBoughtOnCredit = false;
         }
 
         private void AddCreditsToUserAccount(string username, int amount)
         {
-            Stregsystem.GetUserByUsername(username).BalanceDecimal += amount;
+            Stregsystem.GetUserByUsername(username).AddCredits(amount);
         }
 
         private void ExitProgram()
@@ -99,5 +195,6 @@ namespace Eksamensopgave2016.Controller
             UserInterface.Close();
         }
 
+        #endregion
     }
 }

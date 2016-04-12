@@ -10,7 +10,7 @@ namespace Eksamensopgave2016.Core
     {
         public override void Execute()
         {
-            User.BalanceDecimal += Amount;
+            User.AddCredits(Amount);
             base.Execute();
         }
 
