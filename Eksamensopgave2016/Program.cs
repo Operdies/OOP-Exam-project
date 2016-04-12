@@ -11,7 +11,8 @@ namespace Eksamensopgave2016
     {
         static void Main(string[] args)
         {
-            User newuser = new User("lel", "lel", "lel@lel.lel", "lmao");
+            new User("lel", "lel", "eksempel@domain.dk", "lmao");
+            //lel@lel.lel
 
             IStregsystem stregsystem = new Stregsystem();
             IStregsystemUI ui = new StregsystemCLI(stregsystem);

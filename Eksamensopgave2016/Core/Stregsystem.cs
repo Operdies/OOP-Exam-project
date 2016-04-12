@@ -71,7 +71,6 @@ namespace Eksamensopgave2016.Core
             if (!User.UserDictionary.TryGetValue(username, out user))
                 throw new ArgumentException($"No match found for username {username}");
             return user;
-            //returns null if no user is found
         }
     }
 }

@@ -89,12 +89,12 @@ namespace Eksamensopgave2016.Core
 
         public User(string firstName, string lastName, string email, string username)
         {
-            UserID = NextID++;
             Email = email.ToLower().Trim();
             FirstName = firstName;
             LastName = lastName;
             Username = username.ToLower();
 
+            UserID = NextID++;
             UserDictionary.Add(Username, this);
         }
 
@@ -114,6 +114,7 @@ namespace Eksamensopgave2016.Core
             }
             return new string(name);
         }
+
         public delegate void UserBalanceNotifications(User user, decimal Balance);
     }
 }

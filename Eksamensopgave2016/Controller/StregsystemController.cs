@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using Eksamensopgave2016.Interface;
 using Eksamensopgave2016.Core;
 
@@ -54,7 +52,7 @@ namespace Eksamensopgave2016.Controller
                     throw new ArgumentException("Command must contain at least one argument");
                 }
                 if (commandParameters[0].StartsWith(":"))
-                    AdminCommand(commandParameters);
+                    ParseAdminCommmand(commandParameters);
                 else ParseUserCommand(commandParameters);
 
                 Console.ReadKey();
@@ -79,7 +77,7 @@ namespace Eksamensopgave2016.Controller
 
         }
 
-        private void AdminCommand(string[] commandParameters)
+        private void ParseAdminCommmand(string[] commandParameters)
         {
             string command = commandParameters[0];
             string user = commandParameters.Length > 1 ? commandParameters[1] : "";
@@ -104,9 +102,7 @@ namespace Eksamensopgave2016.Controller
         private void ParseUserCommand(string[] commandParameters)
         {
             string username = commandParameters[0];
-            User user;
-
-            user = Stregsystem.GetUserByUsername(username);
+            User user = Stregsystem.GetUserByUsername(username);
 
             int count = 0;
 
