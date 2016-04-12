@@ -11,7 +11,7 @@ namespace Eksamensopgave2016.Core
         public Product Item { get; }
         public override string ToString()
         {
-            return $"User purchased product: {Item}\n\n" + base.ToString();
+            return $"User {User} purchased product: {Item} \n" + base.ToString();
         }
 
         public override void Execute()

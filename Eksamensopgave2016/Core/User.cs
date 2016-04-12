@@ -1,7 +1,6 @@
 ﻿//20154304_Alexander_Nørskov_Larsen
 
 
-
 using System;
 using System.Collections.Generic;
 
@@ -61,7 +60,7 @@ namespace Eksamensopgave2016.Core
                 _email = value.ToLower();
             }
         }
-        
+
         public decimal BalanceDecimal { get; set; }
 
         public void AddCredits(decimal amount)
@@ -87,7 +86,6 @@ namespace Eksamensopgave2016.Core
 
         public override int GetHashCode()
         {
-            //mock implementation
             return UserID.GetHashCode() ^ Username.GetHashCode();
         }
 
@@ -107,7 +105,7 @@ namespace Eksamensopgave2016.Core
             char[] name = oldName.ToCharArray();
             if (name.Length >= 1)
                 name[0] = char.ToUpper(name[0]);
-            
+
 
             for (int index = 1; index < oldName.Length; index++)
             {

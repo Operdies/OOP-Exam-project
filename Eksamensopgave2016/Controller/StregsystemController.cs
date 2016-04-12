@@ -53,6 +53,8 @@ namespace Eksamensopgave2016.Controller
             if (commandParameters[0].StartsWith(":"))
                 AdminCommand(commandParameters);
             else ParseUserCommand(commandParameters);
+
+            Console.ReadKey();
         }
 
         private void AdminCommand(string[] commandParameters)
@@ -74,8 +76,7 @@ namespace Eksamensopgave2016.Controller
                 default:
                     UserInterface.DisplayAdminCommandNotFoundMessage(command);
                     break;
-            }
-            Console.ReadKey();
+            }            
         }
 
         private void ParseUserCommand(string[] commandParameters)
@@ -95,11 +96,17 @@ namespace Eksamensopgave2016.Controller
 
             if (commandParameters.Length > 1)
             {
-                int productID;
+                int productID = 0;
                 if (!int.TryParse(commandParameters.Last(), out productID))
+                {
                     ErrorMessage("Product ID parameter was not a number!");
+                    return;
+                }
                 if (!int.TryParse(commandParameters[1], out count))
+                {
                     ErrorMessage("Multibuy parameter was not a number!");
+                    return;
+                }
                 item = Stregsystem.GetProductByID(productID);
 
                 if (item == null)
@@ -108,8 +115,17 @@ namespace Eksamensopgave2016.Controller
                     ErrorMessage("");
                     return;
                 }
+
+                if (!item.Active)
+                {
+                    ErrorMessage("Selected item is inactive.");
+                    return;
+                }
+
             }
+
             
+
 
             {
                 try
@@ -133,7 +149,6 @@ namespace Eksamensopgave2016.Controller
                     ErrorMessage(e.Message);
                 }
             }
-            Console.ReadKey();
         }
 
         private void QuickBuy(User user, Product item)

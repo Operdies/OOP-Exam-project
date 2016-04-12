@@ -76,6 +76,7 @@ namespace Eksamensopgave2016.Interface
         public void Close()
         {
             _running = false;
+            Transaction.TransactionLogger.Close();
             Console.WriteLine("Exiting. Goodbye");
         }
 
@@ -90,8 +91,6 @@ namespace Eksamensopgave2016.Interface
         {
             Console.WriteLine("An error occurred. " + errorString);
         }
-
-        //public event StregsystemEvent CommandEntered;
 
         public void Start()
         {
@@ -176,5 +175,7 @@ namespace Eksamensopgave2016.Interface
                 Console.WriteLine(item);
             }
         }
+        //public event StregsystemEvent CommandEntered;
     }
+    //public delegate void StregsystemEvent(object sender, StregsystemEventArgs args);
 }

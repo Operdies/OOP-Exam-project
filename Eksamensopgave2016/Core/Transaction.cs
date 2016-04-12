@@ -4,12 +4,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace Eksamensopgave2016.Core
 {
     public abstract class Transaction : IComparable<Transaction>
     {
+        public static readonly StreamWriter TransactionLogger = new StreamWriter("TransactionLog.txt");
         public static Dictionary<int, Transaction> TransactionDictionary = new Dictionary<int, Transaction>();
         private static int NextID = 1;
         public int TransactionID { get; private set; }
@@ -21,6 +23,14 @@ namespace Eksamensopgave2016.Core
         {
             TransactionID = NextID++;
             TransactionDictionary.Add(TransactionID, this);
+            LogTransaction();
+        }
+
+        private void LogTransaction()
+        {
+            TransactionLogger.Write(this.ToString());
+            TransactionLogger.WriteLine();
+            TransactionLogger.WriteLine();
         }
 
 
@@ -40,10 +50,10 @@ namespace Eksamensopgave2016.Core
         public override string ToString()
         {
             return (
-                $"Transaction ID      : {TransactionID}\n" +
-                $"User                : {User}\n" +
-                $"Amount              : {Amount/100}\n"+
-                $"Time of transaction : {Date}"
+                $"Transaction ID : {TransactionID}\n " +
+                $"User : {User}\n " +
+                $"Amount : {Amount/100:C}\n "+
+                $"Time of transaction : {Date} "
                 );
         }
     }
